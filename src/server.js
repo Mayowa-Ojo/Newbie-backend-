@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 const env = require('dotenv');
+const postRouter = require('./routes/posts');
 
 /* setup express */
 const app = express();
@@ -23,7 +24,7 @@ mongoose.connect(DATABASE_URI, { useNewUrlParser: true })
 
 /* setup middlewares */
 app.use(express.json());
-// app.use('/api/posts', postsRouter);
+app.use('/api/posts', postRouter);
 // app.use('/api/comments', commentsRouter);
 
 /* pseudo-route */
