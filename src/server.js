@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 const env = require('dotenv');
+const cors = require('cors');
+/* Relative imports */
 const postRouter = require('./routes/posts');
 
 /* setup express */
@@ -23,7 +25,9 @@ mongoose.connect(DATABASE_URI, { useNewUrlParser: true })
   })
 
 /* setup middlewares */
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 app.use('/api/posts', postRouter);
 // app.use('/api/comments', commentsRouter);
 

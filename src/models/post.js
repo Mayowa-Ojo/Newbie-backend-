@@ -12,7 +12,8 @@ const postSchema = new mongoose.Schema({
   },
   author: {
     type: String,
-    required: true
+    required: true,
+    default: 'Anonymous'
   },
   date: {
     type: Date,
