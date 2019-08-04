@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const chalk = require('chalk');
 const env = require('dotenv');
 const cors = require('cors');
+const methodOverride = require('method-override');
 /* Relative imports */
 const postRouter = require('./routes/posts');
 
@@ -28,6 +29,7 @@ mongoose.connect(DATABASE_URI, { useNewUrlParser: true })
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
+app.use(methodOverride('_method'));
 app.use('/api/posts', postRouter);
 // app.use('/api/comments', commentsRouter);
 

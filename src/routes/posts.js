@@ -41,7 +41,7 @@ router.get('/:id/edit', getSinglePost, (req, res) => {
 router.put('/:id', async (req, res) => {
   const { body, params: { id } } = req;
   try {
-    const updatedPost = await Post.findByIdAndUpdate(id, body);
+    const updatedPost = await Post.findByIdAndUpdate(id, body, {new: true});
     res.json(updatedPost);
   } catch(err) {
     res.status(500).json({message: err.message})
