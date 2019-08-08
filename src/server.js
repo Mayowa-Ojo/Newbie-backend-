@@ -1,8 +1,8 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const chalk = require('chalk');
-const env = require('dotenv');
-const cors = require('cors');
+const cors           = require('cors');
+const chalk          = require('chalk');
+const env            = require('dotenv');
+const express        = require('express');
+const mongoose       = require('mongoose');
 const methodOverride = require('method-override');
 /* Relative imports */
 const postRouter = require('./routes/posts');
@@ -19,16 +19,16 @@ const DATABASE_URI = process.env.DATABASE_URI;
 /* connect mongoose */
 mongoose.connect(DATABASE_URI, { useNewUrlParser: true })
   .then(() => {
-    log(`${chalk.green('connected to database')}`);
+    log(`${chalk.green('connected to database')}`)
   })
   .catch((err) => {
-    log(`${chalk.red(err)}`);
+    log(`${chalk.red(err)}`)
   })
 
 /* setup middlewares */
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use('/api/posts', postRouter);
 // app.use('/api/comments', commentsRouter);
