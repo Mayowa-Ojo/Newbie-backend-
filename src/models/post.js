@@ -11,17 +11,28 @@ const postSchema = new mongoose.Schema({
   },
   author: {
     type: String,
-    required: true,
     default: 'Anonymous'
   },
   date: {
     type: Date,
     default: Date.now
   },
-  likes: {
-    type: Number,
-    default: 0
+  comments: [
+    {
+      body: String,
+      date: Date
+    }
+  ],
+  meta: {
+    likes: {
+      type: Number,
+      default: 0
+    },
+    tags: {
+      type: Array
+    }
   }
+  
 })
 
 module.exports = mongoose.model('Post', postSchema);
