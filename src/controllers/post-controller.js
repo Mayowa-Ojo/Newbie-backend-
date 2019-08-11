@@ -56,6 +56,7 @@ exports.deletePost = (req, res) => {
   }
 }
 
+/* Update likes for a post */
 exports.updateLikes = async (req, res) => {
   const { id } = req.params;
   const { meta: { likes } } = res.post;

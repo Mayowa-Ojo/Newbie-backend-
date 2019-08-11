@@ -12,6 +12,7 @@ const {
 } = require('../controllers/post-controller');
 
 /* setup posts routes */
+
 /* get all posts */
 router.get('/', getPosts);
 

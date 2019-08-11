@@ -7,6 +7,7 @@ const methodOverride   = require('method-override');
 const expressSanitizer = require('express-sanitizer');
 /* Relative imports */
 const postRouter = require('./routes/posts');
+const commentRouter = require('./routes/comments');
 
 /* setup express */
 const app = express();
@@ -20,7 +21,7 @@ const DATABASE_URI = process.env.DATABASE_URI;
 /* connect mongoose */
 mongoose.connect(DATABASE_URI, { useNewUrlParser: true })
   .then(() => {
-    log(`${chalk.green('connected to database')}`)
+    log(`${chalk.bgMagenta('connected to database')}`)
   })
   .catch((err) => {
     log(`${chalk.red(err)}`)
@@ -33,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(expressSanitizer());
 app.use(methodOverride('_method'));
 app.use('/api/posts', postRouter);
-// app.use('/api/comments', commentsRouter);
+app.use('/api/posts/:id/comments', commentRouter);
 
 /* pseudo-route */
 app.get('/', (req, res) => {
