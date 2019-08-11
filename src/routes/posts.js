@@ -34,7 +34,7 @@ router.put('/:id', editPost);
 router.delete('/:id', getSinglePost, deletePost);
 
 /* update likes */
-router.patch('/:id/likes', getSinglePost, updateLikes);
+router.put('/:id/likes', getSinglePost, updateLikes);
 
 /*
 fetch(url, {

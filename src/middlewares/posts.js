@@ -1,3 +1,4 @@
+/* Relative imports */
 const Post = require('../models/post');
 
 async function getSinglePost(req, res, next) {

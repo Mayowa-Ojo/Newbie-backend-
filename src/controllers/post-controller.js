@@ -35,8 +35,8 @@ exports.createPost = async (req, res) => {
 exports.editPost = async (req, res) => {
   const { body, params: { id } } = req;
   // sanitize user input
-  body.title = req.sanitize(body.title);
-  body.body = req.sanitize(body.body);
+  // body.title = req.sanitize(body.title);
+  // body.body = req.sanitize(body.body);
   try {
     const updatedPost = await Post.findByIdAndUpdate(id, body, {new: true, useFindAndModify: false});
     res.json(updatedPost);
@@ -59,13 +59,13 @@ exports.deletePost = (req, res) => {
 exports.updateLikes = async (req, res) => {
   const { id } = req.params;
   const { meta: { likes } } = res.post;
-  const updatedLikes = {meta: {likes: likes + 1}}
+  const updatedLikes = {'meta.likes': likes + 1};
   // res.json({updatedLikes})
   try {
-    const update = await Post.findByIdAndUpdate(id, updatedLikes, {new: true, useFindAndModify: false});
+    const update = await Post.findByIdAndUpdate(id, {$set: updatedLikes}, {new: true, useFindAndModify: false});
     res.json(update);
   } catch(err) {
-    res.status(500).json(err.message);
+    res.status(500).json(err.message); 
   }
 }
 
