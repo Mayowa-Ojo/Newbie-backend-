@@ -6,8 +6,8 @@ const mongoose         = require('mongoose');
 const methodOverride   = require('method-override');
 const expressSanitizer = require('express-sanitizer');
 /* Relative imports */
-const postRouter = require('./routes/posts');
-const commentRouter = require('./routes/comments');
+const postRouter       = require('./routes/posts');
+const commentRouter    = require('./routes/comments');
 
 /* setup express */
 const app = express();

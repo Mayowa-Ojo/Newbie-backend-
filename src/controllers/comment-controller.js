@@ -1,13 +1,19 @@
 /* Relative imports */
 const Post = require('../models/post');
 
-/* Get all comments for a post */
+/* Get all comments for a post 
+   expects a get request to the api end-point with no payload
+   end-point: "/api/posts/:id/comments"
+*/
 exports.getComments = async (req, res) => {
   const { comments } = res.post;
   res.json({ comments });
 }
 
-/* Post a comment */
+/* Post a comment
+   expects a post request to the endpoint with payload structure like so: { body: "<insert comment string here>" }
+   end-point: "/api/posts/:id/comments"
+*/
 exports.postComment = async (req, res) => {
   // grab text body and post id from request object
   const { body: { body }, params: { id }} =  req;
@@ -18,16 +24,21 @@ exports.postComment = async (req, res) => {
       { "$push": { comments: { body } } }, 
       { new: true, useFindAndModify: false }
     );
+    // return the post object updated with new comment(s)
     res.json(updatedPost);
   } catch(err) {
     res.status(500).json({message: err.message});
   }
 }
 
-/* Edit a comment */
+/* Edit a comment
+   expects a put request from the client with payload structure like so: { comment: "<insert edited text here>" }
+   end-point: "/api/posts/:id/comments/:comment_id"
+*/
 exports.editComment = async (req, res) => {
+  // grab the post id and comment id from the route parameters
   const { id, comment_id } = req.params;
-  // grab comment form request body
+  // grab comment from request body
   const { comment } = req.body;
   try {
     const updatedPost = await Post.findByIdAndUpdate(
@@ -36,13 +47,17 @@ exports.editComment = async (req, res) => {
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
       // { new: true, useFindAndModify: false }
     );
+    // return a json object of the complete post with the comment updated
     res.json(updatedPost);
   } catch(err) {
     res.status(500).json({message: err.message})
   }
 }
 
-/* Delete a comment */
+/* Delete a comment
+   expects a delete request from the client with no payload
+   end-point: "/api/posts/:id/comments/:comment_id"
+*/
 exports.deleteComment = async (req, res) => {
 
 }

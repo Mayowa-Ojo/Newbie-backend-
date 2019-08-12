@@ -1,7 +1,10 @@
 /* Relative imports */
 const Post = require('../models/post');
 
-/* get all posts */
+/* get all posts
+   expects a get request from the client with no payload
+   end-point: "/api/posts/"
+*/
 exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -11,12 +14,18 @@ exports.getPosts = async (req, res) => {
   }
 }
 
-/* Get one post */
+/* Get one post
+   expects a get request from the client with no payload
+   end-point: "/api/posts/:id"
+*/
 exports.getOnePost = (req, res) => {
   res.json(res.post);
 }
 
-/* Create a post */
+/* Create a post
+   expects a post request from the client with payload structure like so: { title: "<enter post title>", body: "<enter post body>" }
+   end-point: "/api/posts"
+*/
 exports.createPost = async (req, res) => {
   const { body } = req;
   // sanitize user input
@@ -24,28 +33,40 @@ exports.createPost = async (req, res) => {
   body.body = req.sanitize(body.body);
   const post = new Post(body);
   try {
+    // save post to database
     const newPost = await post.save();
+    // return post object to client
     res.status(201).json(newPost);
   } catch(err) {
+    // handle potential errors
     res.status(400).json({message: err.message});
   }
 }
 
-/* Edit a post */
+/* Edit a post
+   expects a put request from the client with payload structure like so: { title: "<enter updated post title>", body: "<enter updated post body>" }
+   end-point: "/api/posts/:id"
+*/
 exports.editPost = async (req, res) => {
   const { body, params: { id } } = req;
   // sanitize user input
   // body.title = req.sanitize(body.title);
   // body.body = req.sanitize(body.body);
   try {
+    // update post in the database
     const updatedPost = await Post.findByIdAndUpdate(id, body, {new: true, useFindAndModify: false});
+    // return updated post to client
     res.json(updatedPost);
   } catch(err) {
+    // handle potential errors
     res.status(500).json({message: err.message});
   }
 }
 
-/* Delete a post */
+/* Delete a post
+   expects a delete request from the client with no payload
+   end-point: "/api/posts/:id"
+*/
 exports.deletePost = (req, res) => {
   // const { id } = req.params;
   try {
@@ -56,7 +77,10 @@ exports.deletePost = (req, res) => {
   }
 }
 
-/* Update likes for a post */
+/* Update likes for a post
+   expects a put request from the client with no payload
+   end-point: "/api/posts/:id"
+*/
 exports.updateLikes = async (req, res) => {
   const { id } = req.params;
   const { meta: { likes } } = res.post;

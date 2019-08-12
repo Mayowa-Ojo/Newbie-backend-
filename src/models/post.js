@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+/* Define database schema for the posts */
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -31,8 +32,7 @@ const postSchema = new mongoose.Schema({
     tags: {
       type: Array
     }
-  }
-  
+  }  
 })
 
 module.exports = mongoose.model('Post', postSchema);
