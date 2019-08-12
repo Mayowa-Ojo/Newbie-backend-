@@ -13,7 +13,11 @@ exports.postComment = async (req, res) => {
   const { body: { body }, params: { id }} =  req;
   try {    
     // update post with new comment using the $push array operator
-    const updatedPost = await Post.findByIdAndUpdate(id, {"$push": {comments: { body }}}, {new: true, useFindAndModify: false });
+    const updatedPost = await Post.findByIdAndUpdate(
+      id, 
+      { "$push": { comments: { body } } }, 
+      { new: true, useFindAndModify: false }
+    );
     res.json(updatedPost);
   } catch(err) {
     res.status(500).json({message: err.message});
@@ -22,7 +26,20 @@ exports.postComment = async (req, res) => {
 
 /* Edit a comment */
 exports.editComment = async (req, res) => {
-
+  const { id, comment_id } = req.params;
+  // grab comment form request body
+  const { comment } = req.body;
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { $set: { "comments.$[element].body": comment }},
+      { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
+      // { new: true, useFindAndModify: false }
+    );
+    res.json(updatedPost);
+  } catch(err) {
+    res.status(500).json({message: err.message})
+  }
 }
 
 /* Delete a comment */
