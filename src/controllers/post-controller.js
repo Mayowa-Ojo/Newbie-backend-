@@ -79,7 +79,7 @@ exports.deletePost = (req, res) => {
 
 /* Update likes for a post
    expects a put request from the client with no payload
-   end-point: "/api/posts/:id"
+   end-point: "/api/posts/:id/likes"
 */
 exports.updateLikes = async (req, res) => {
   const { id } = req.params;
