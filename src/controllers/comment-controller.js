@@ -43,6 +43,7 @@ exports.postComment = async (req, res) => {
     // return the post object updated with new comment(s)
     res.json(updatedPost);
   } catch(err) {
+    // handle poential errors
     res.status(500).json({message: err.message});
   }
 }
@@ -61,11 +62,11 @@ exports.editComment = async (req, res) => {
       id,
       { $set: { "comments.$[element].body": comment }},
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
-      // { new: true, useFindAndModify: false }
     );
     // return a json object of the complete post with the comment updated
     res.json(updatedPost);
   } catch(err) {
+    // handle poential errors
     res.status(500).json({message: err.message})
   }
 }
@@ -75,6 +76,20 @@ exports.editComment = async (req, res) => {
    end-point: "/api/posts/:id/comments/:comment_id"
 */
 exports.deleteComment = async (req, res) => {
+  // grab post id and comment id from route params
+  const { id, comment_id } = req.params;
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { $unset: { "comments.$[element]": "" }},
+      { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id}}]}
+    );
+    // return a json object of the complete post with the comment updated
+    res.json(updatedPost);    
+  } catch(err) {
+    // handle poential errors
+    res.status(500).json({message: err.message})
+  }
 
 }
 
