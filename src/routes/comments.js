@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 
 /* Relative imports */
-const { getSinglePost } = require('../middlewares/posts');
+const { getSinglePost, getSingleComment } = require('../middlewares/posts');
 const { 
   getComments, 
-  getSingleComment, 
+  getOneComment, 
   postComment, 
   editComment, 
   deleteComment 
@@ -18,7 +18,7 @@ const {
 router.get('/', getSinglePost, getComments);
 
 /* Get a single comment */
-router.get('/:comment_id', getSinglePost, getSingleComment);
+router.get('/:comment_id', getSinglePost, getSingleComment, getOneComment);
 
 /* Post a comment */
 router.post('/', getSinglePost, postComment);

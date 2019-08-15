@@ -8,6 +8,7 @@ const expressSanitizer = require('express-sanitizer');
 /* Relative imports */
 const postRouter       = require('./routes/posts');
 const commentRouter    = require('./routes/comments');
+const commentRepliesRouter = require('./routes/comment-replies');
 
 /* setup express */
 const app = express();
@@ -35,6 +36,7 @@ app.use(expressSanitizer());
 app.use(methodOverride('_method'));
 app.use('/api/posts', postRouter);
 app.use('/api/posts/:id/comments', commentRouter);
+app.use('/api/posts/:id/comments/:comment_id/replies', commentRepliesRouter);
 
 /* pseudo-route */
 app.get('/', (req, res) => {

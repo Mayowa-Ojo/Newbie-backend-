@@ -1,7 +1,7 @@
 /* Relative imports */
 const Post = require('../models/post');
 
-/* Get all comments for a post 
+/* Get all comments for a post
    expects a get request from the client with no payload
    end-point: "/api/posts/:id/comments"
 */
@@ -12,18 +12,11 @@ exports.getComments = async (req, res) => {
 
 /**
  * Get a single comment
- * expects a get request to rom the client with no payload
+ * expects a get request from the client with no payload
  * end-point: "/api/posts/:id/comments/:comment_id"
  */
-exports.getSingleComment = (req, res) => {
-  // grab the post id and comment id from route params
-  const { comment_id } = req.params;
-  const { comments } = res.post;
-  // find the comment with matches the comment_id
-  const foundComment = comments.find(obj => obj._id == comment_id)
-  if(foundComment !== undefined) {
-    res.json({comment: foundComment})
-  } else res.status(404).json({message: "comment does not exist"})
+exports.getOneComment = (req, res) => {
+  res.json(res.comment);
 }
 
 /* Post a comment
@@ -90,7 +83,6 @@ exports.deleteComment = async (req, res) => {
     // handle poential errors
     res.status(500).json({message: err.message})
   }
-
 }
 
 module.exports = exports;

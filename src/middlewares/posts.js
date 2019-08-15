@@ -22,6 +22,23 @@ async function getSinglePost(req, res, next) {
   next();
 }
 
+function getSingleComment(req, res, next) {
+  // grab the comments array
+  const { comments } = res.post;
+  // get comment_id from route params
+  const { comment_id } = req.params;
+  // find the comment which matches the comment_id
+  const foundComment = comments.find(obj => obj !== null && obj._id == comment_id);
+  if(foundComment !== undefined) {
+    // plug the found comment on the response object
+    res.comment = foundComment;
+  } else res.status(404).json({message: "comment does not exist"});
+
+  // pass execution to the next function
+  next();
+}
+
 module.exports = {
-  getSinglePost
+  getSinglePost,
+  getSingleComment
 }

@@ -21,7 +21,22 @@ const postSchema = new mongoose.Schema({
   comments: [
     {
       body: String,
-      date: Date
+      // body: {type: String, minlength: 1, maxlength: 10},
+      date: { type: Date, default: Date.now },
+      replies: [
+        {
+          text: String,
+          date: { type: Date, default: Date.now }
+        }
+      ]
+      /* author: {
+        id: {
+          type: mongoose.Schema.Types.objectId,
+          ref: "User"
+        },
+        username: String
+      }
+      */
     }
   ],
   meta: {
@@ -34,5 +49,4 @@ const postSchema = new mongoose.Schema({
     }
   }  
 })
-
 module.exports = mongoose.model('Post', postSchema);
