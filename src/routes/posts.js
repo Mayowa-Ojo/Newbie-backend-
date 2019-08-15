@@ -4,31 +4,31 @@ const router = express.Router();
 const { getSinglePost } = require('../middlewares/posts');
 const { 
   getPosts, 
-  getOnePost, 
+  getPost, 
   createPost, 
-  editPost, 
+  editPost,
   deletePost, 
   updateLikes 
 } = require('../controllers/post-controller');
 
-/* setup posts routes */
+/** setup posts routes */
 
-/* get all posts */
+/** get all posts */
 router.get('/', getPosts);
 
-/* Get one post */
-router.get('/:id', getSinglePost, getOnePost);
+/** Get one post */
+router.get('/:id', getSinglePost, getPost);
 
-/* Create a post */
+/** Create a post */
 router.post('/', createPost);
 
-/* Edit a post */
+/** Edit a post */
 router.put('/:id', editPost);
 
-/* Delete a post */
+/** Delete a post */
 router.delete('/:id', getSinglePost, deletePost);
 
-/* update likes */
+/** update likes */
 router.put('/:id/likes', getSinglePost, updateLikes);
 
 module.exports = router;

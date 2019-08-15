@@ -34,6 +34,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(expressSanitizer());
 app.use(methodOverride('_method'));
+/** Routes */
+// app.use('/api/users')
 app.use('/api/posts', postRouter);
 app.use('/api/posts/:id/comments', commentRouter);
 app.use('/api/posts/:id/comments/:comment_id/replies', commentRepliesRouter);

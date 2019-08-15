@@ -6,7 +6,7 @@ const router = express.Router({ mergeParams: true });
 const { getSinglePost, getSingleComment } = require('../middlewares/posts');
 const { 
   getComments, 
-  getOneComment, 
+  getComment, 
   postComment, 
   editComment, 
   deleteComment 
@@ -18,7 +18,7 @@ const {
 router.get('/', getSinglePost, getComments);
 
 /* Get a single comment */
-router.get('/:comment_id', getSinglePost, getSingleComment, getOneComment);
+router.get('/:comment_id', getSinglePost, getSingleComment, getComment);
 
 /* Post a comment */
 router.post('/', getSinglePost, postComment);

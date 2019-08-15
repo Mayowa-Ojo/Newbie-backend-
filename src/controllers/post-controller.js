@@ -18,7 +18,7 @@ exports.getPosts = async (req, res) => {
    expects a get request from the client with no payload
    end-point: "/api/posts/:id"
 */
-exports.getOnePost = (req, res) => {
+exports.getPost = (req, res) => {
   res.json(res.post);
 }
 

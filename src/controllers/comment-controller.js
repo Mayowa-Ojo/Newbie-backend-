@@ -15,7 +15,7 @@ exports.getComments = async (req, res) => {
  * expects a get request from the client with no payload
  * end-point: "/api/posts/:id/comments/:comment_id"
  */
-exports.getOneComment = (req, res) => {
+exports.getComment = (req, res) => {
   res.json(res.comment);
 }
 
@@ -53,7 +53,7 @@ exports.editComment = async (req, res) => {
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { $set: { "comments.$[element].body": comment }},
+      { "$set": { "comments.$[element].body": comment }},
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
     );
     // return a json object of the complete post with the comment updated
@@ -74,7 +74,7 @@ exports.deleteComment = async (req, res) => {
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { $unset: { "comments.$[element]": "" }},
+      { "$unset": { "comments.$[element]": "" }},
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id}}]}
     );
     // return a json object of the complete post with the comment updated
