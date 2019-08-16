@@ -2,22 +2,10 @@ const mongoose = require('mongoose');
 
 /* Define database schema for the posts */
 const postSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true
-  },
-  body: {
-    type: String,
-    required: true
-  },
-  author: {
-    type: String,
-    default: 'Anonymous'
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  },
+  title: { type: String, required: true },
+  body: { type: String, required: true },
+  author: { type: String, default: 'Anonymous' },
+  date: { type: Date, default: Date.now },
   comments: [
     {
       body: String,
@@ -28,7 +16,8 @@ const postSchema = new mongoose.Schema({
           text: String,
           date: { type: Date, default: Date.now }
         }
-      ]
+      ],
+      likes: { type: Number, default: 0 }
       /* author: {
         id: {
           type: mongoose.Schema.Types.objectId,
@@ -40,13 +29,8 @@ const postSchema = new mongoose.Schema({
     }
   ],
   meta: {
-    likes: {
-      type: Number,
-      default: 0
-    },
-    tags: {
-      type: Array
-    }
+    likes: { type: Number, default: 0 },
+    tags: { type: Array }
   }  
 });
 

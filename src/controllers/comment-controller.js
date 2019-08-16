@@ -85,4 +85,27 @@ exports.deleteComment = async (req, res) => {
   }
 }
 
+/** Update comment likes
+ *  expects a put request from the client with no payload
+ * end-point: "/api/posts/;id/coments/:comment_id/likes" 
+ */
+exports.updateLikes = async (req, res) => {
+  // grab post id and comment id from route params
+  const { id, comment_id } = req.params;
+  const foundComment = res.comment
+  // update the likes field
+  const updatedLikes = foundComment.likes + 1;
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { "$set": { "comments.$[element].likes": updatedLikes }},
+      { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
+    );
+    res.json(updatedPost);
+  } catch(err) {
+    // handle potential errors
+    res.status(500).json({message: err.message});
+  }
+}
+
 module.exports = exports;

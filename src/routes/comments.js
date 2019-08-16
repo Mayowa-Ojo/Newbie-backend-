@@ -5,11 +5,12 @@ const router = express.Router({ mergeParams: true });
 /* Relative imports */
 const { getSinglePost, getSingleComment } = require('../middlewares/posts');
 const { 
-  getComments, 
-  getComment, 
-  postComment, 
-  editComment, 
-  deleteComment 
+  getComments,
+  getComment,
+  postComment,
+  editComment,
+  deleteComment,
+  updateLikes
 } = require('../controllers/comment-controller');
 
 /* Set up comments routes */
@@ -28,5 +29,8 @@ router.put('/:comment_id', getSinglePost, editComment);
 
 /* Delete a comment */
 router.delete('/:comment_id', getSinglePost, deleteComment);
+
+/* Update comment likes */
+router.put('/:comment_id/likes', getSinglePost, getSingleComment, updateLikes);
 
 module.exports = router;
