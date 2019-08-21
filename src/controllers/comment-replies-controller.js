@@ -75,13 +75,25 @@ exports.editCommentReply = async (req, res) => {
  * end-point: "/api/posts/:id/comments/:comment_id/replies/:reply_id"
  */
 exports.deleteCommentReply = async (req, res) => {
-  const { id, reply_id } = req.params;
+  const { id, comment_id, reply_id } = req.params;
   try {
-    const updatedPost = await Post.findByIdAndUpdate(
+    await Post.findByIdAndUpdate(
       id,
       { "$unset": { "comments.$[].replies.$[element]": "" }},
-      { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: reply_id }}]}
+      { new: true, useFindAndModify: false, arrayFilters: [
+        { "element._id": { $eq: reply_id }}
+      ]}
     );
+
+    // remove null values in the array because the $unset array operator replaces the element with null
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { "$pull": { "comments.$[element].replies": null }},
+      { new: true, useFindAndModify: false, arrayFilters: [
+        { "element._id": { $eq: comment_id }}
+      ]}
+    );
+
     // return a json object of the updated post
     res.json(updatedPost);
   } catch(err) {

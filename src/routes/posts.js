@@ -8,7 +8,7 @@ const {
   createPost, 
   editPost,
   deletePost, 
-  updateLikes 
+  updateLikes,
 } = require('../controllers/post-controller');
 
 /** setup posts routes */

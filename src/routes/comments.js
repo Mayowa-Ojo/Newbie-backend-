@@ -10,7 +10,7 @@ const {
   postComment,
   editComment,
   deleteComment,
-  updateLikes
+  updateLikes,
 } = require('../controllers/comment-controller');
 
 /* Set up comments routes */

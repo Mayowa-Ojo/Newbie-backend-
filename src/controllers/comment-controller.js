@@ -72,11 +72,19 @@ exports.deleteComment = async (req, res) => {
   // grab post id and comment id from route params
   const { id, comment_id } = req.params;
   try {
-    const updatedPost = await Post.findByIdAndUpdate(
+    await Post.findByIdAndUpdate(
       id,
       { "$unset": { "comments.$[element]": "" }},
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id}}]}
     );
+    
+    // remove null values in the array because the $unset array operator replaces the element with null
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { "$pull": { comments: null }},
+      { new: true, useFindAndModify: false}
+    );
+    
     // return a json object of the complete post with the comment updated
     res.json(updatedPost);    
   } catch(err) {
