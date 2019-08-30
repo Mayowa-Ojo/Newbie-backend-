@@ -36,7 +36,7 @@ exports.createPost = async (req, res) => {
   body.body = req.sanitize(body.body);
   const post = new Post(body);
   try {
-    for(let i = 0; i < urls.length; i++) {
+    for(let i = 0; i < mediaIds.length; i++) {
       // find media document related to current post
       const media = await Media.findById(mongoose.Types.ObjectId(mediaIds[i]));
       if(media === null) {
