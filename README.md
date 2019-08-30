@@ -21,9 +21,9 @@ Clone this repository to your project folder and run `npm run dev-start` in your
 ## Folder structure
 > The current folder structure looks like this:
 ```
-home
+root
   |____src
-        |_____ controllers
+        |_____  controllers
             |__ middlewares
             |__ models
             |__ public
@@ -38,7 +38,7 @@ You can make requests from a frontend or through an APM or your browser
 ### available routes
 
 | Routes | Query | HTTP method | End-point |
-| ------ | ------| ----------  | -----------|
+| ------ | ------|        ---: | ---------|
 | Posts  | get all posts | GET | /api/posts |
 |        | get single post | GET | /api/posts/:id |
 |        | create post | POST | /api/posts |
