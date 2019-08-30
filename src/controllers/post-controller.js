@@ -29,7 +29,7 @@ exports.getPost = (req, res) => {
    end-point: "/api/posts"
 */
 exports.createPost = async (req, res) => {
-  const { body, body: { meta: { urls } } } = req;
+  const { body, body: { meta: { mediaIds } } } = req;
   // const mediaId = mongoose.Types.ObjectId("5d67bf85c4d56a21acdd689f");
   // sanitize user input
   body.title = req.sanitize(body.title);
@@ -38,7 +38,7 @@ exports.createPost = async (req, res) => {
   try {
     for(let i = 0; i < urls.length; i++) {
       // find media document related to current post
-      const media = await Media.findById(mongoose.Types.ObjectId(urls[i]));
+      const media = await Media.findById(mongoose.Types.ObjectId(mediaIds[i]));
       if(media === null) {
         return res.status(404).json({message: 'media doesn\'t exist'});
       }      
