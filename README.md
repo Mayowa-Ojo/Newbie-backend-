@@ -44,4 +44,25 @@ You can make requests from a frontend or through an APM or your browser
 |        | create post | POST | /api/posts |
 |        | update a post | PUT | /api/posts/:id |
 |        | delete a post | DELETE | /api/posts/:id |
+|        | update likes | PUT | /api/posts/:id/likes |
+| comments | get all comments | GET | /api/posts/:id/comments |
+|          | get single comment | GET | /api/posts/:id/comments/:comment_id |
+|          | create a comment | POST | /api/posts/:id/comments |
+|          | edit a comment | PUT | /api/posts/:id/comments/:comment_id |
+|          | delete a comment | DELETE | /api/posts/:id/comments/:comment_id |
+|          | update likes | PUT | /api/posts/:id/comments/:comment_id/likes |
+| comment-replies | get all replies | GET | /api/posts/:id/comments/:comment_id/replies |
+|                  | get single reply | GET | /api/posts/:id/comments/:comment_id/replies/:reply_id |
+|                  | create a reply | POST | /api/posts/:id/comments/:comment_id/replies |
+|                  | edit a reply | PUT | /api/posts/:id/comments/:comment_id/replies/:reply_id |
+|                  | delete a reply | DELETE | /api/posts/:id/comments/:comment_id/replies/:reply_id |
+| media | create a media type | POST | /api/media |
+|       | get a media type | GET | /api/media/:id |
+|       | delete a media type | DELETE | /api/media/:id |
+
+### NOTE :bulb: (on handling media)
+> * Make a post request to the create media route.<br>
+> * Embed the media id(s) in the "**mediaIds**" field in the meta field of the post body.<br>
+> * Make the post request to the create post route.
+> * When making a get single post request, the post will be populated with the media documents. 
 
