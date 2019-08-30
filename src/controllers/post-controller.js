@@ -1,5 +1,7 @@
+const mongoose = require('mongoose');
 /* Relative imports */
 const Post = require('../models/post');
+const Media = require('../models/media');
 
 /* get all posts
    expects a get request from the client with no payload
@@ -27,14 +29,26 @@ exports.getPost = (req, res) => {
    end-point: "/api/posts"
 */
 exports.createPost = async (req, res) => {
-  const { body } = req;
+  const { body, body: { meta: { urls } } } = req;
+  // const mediaId = mongoose.Types.ObjectId("5d67bf85c4d56a21acdd689f");
   // sanitize user input
   body.title = req.sanitize(body.title);
   body.body = req.sanitize(body.body);
   const post = new Post(body);
   try {
+    for(let i = 0; i < urls.length; i++) {
+      // find media document related to current post
+      const media = await Media.findById(mongoose.Types.ObjectId(urls[i]));
+      if(media === null) {
+        return res.status(404).json({message: 'media doesn\'t exist'});
+      }      
+      // push found media onto post document
+      post.media.push(media);
+    }
+
     // save post to database
     const newPost = await post.save();
+
     // return post object to client
     res.status(201).json(newPost);
   } catch(err) {

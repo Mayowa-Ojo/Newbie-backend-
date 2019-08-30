@@ -7,7 +7,10 @@ async function getSinglePost(req, res, next) {
   const { id } = req.params;
   let post;
   try {
-    post = await Post.findById(id);
+    // Retrieve post from database and populate the media field
+    post = await Post.findById(id)
+      .populate('media');
+
     // check if the post was found
     if(post === null) {
       return res.status(404).json({message: 'post doesn\'t exist'});

@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
   title: { type: String, required: true },
   body: { type: String, required: true },
   author: { type: String, default: 'Anonymous' },
-  date: { type: Date, default: Date.now },
+  date: { type: Date, default: Date.now },  
   comments: [
     {
       body: String,
@@ -18,19 +18,18 @@ const postSchema = new mongoose.Schema({
         }
       ],
       likes: { type: Number, default: 0 }
-      /* author: {
-        id: {
-          type: mongoose.Schema.Types.objectId,
-          ref: "User"
-        },
-        username: String
-      }
-      */
+    }
+  ],
+  media: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media'
     }
   ],
   meta: {
     likes: { type: Number, default: 0 },
-    tags: { type: Array }
+    tags: { type: Array },
+    mediaIds: { type: Array }
   }
 });
 
