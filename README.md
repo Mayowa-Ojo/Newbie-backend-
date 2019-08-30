@@ -1,7 +1,4 @@
-<p align="center">
-  <img width="460" height="300" src="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjfw4GstKrkAhUQyIUKHV-HBi4QjRx6BAgBEAQ&url=https%3A%2F%2Fdepositphotos.com%2F76494873%2Fstock-illustration-newbie-red-grunge-vintage-stamp.html&psig=AOvVaw3zZnRnjphXptpyKX14_EEf&ust=1567248112957991">
-</p>
-# ->newbie.dev<-
+# <p align="center">newbie.dev </p>
 open source publishing platform tailored for entry level developers
 
 ## Overview
@@ -36,6 +33,15 @@ home
 
 ## Making requests
 You can make requests from a frontend or through an APM or your browser
+> Don't worry about cors, we have that covered. 
 
 ### available routes
+
+| Routes | Query | HTTP method | End-point |
+| ------ | ------| ----------  | -----------|
+| Posts  | get all posts | GET | /api/posts |
+|        | get single post | GET | /api/posts/:id |
+|        | create post | POST | /api/posts |
+|        | update a post | PUT | /api/posts/:id |
+|        | delete a post | DELETE | /api/posts/:id |
 
