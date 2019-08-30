@@ -1,6 +1,10 @@
-# newbie.dev
+<p align="center">
+  <img width="460" height="300" src="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjfw4GstKrkAhUQyIUKHV-HBi4QjRx6BAgBEAQ&url=https%3A%2F%2Fdepositphotos.com%2F76494873%2Fstock-illustration-newbie-red-grunge-vintage-stamp.html&psig=AOvVaw3zZnRnjphXptpyKX14_EEf&ust=1567248112957991">
+</p>
+# ->newbie.dev<-
 open source publishing platform tailored for entry level developers
-***
+
+## Overview
 newbie.dev backend is written in Node.js and uses MongoDB for data persistence
 
 ## Installation
