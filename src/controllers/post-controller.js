@@ -36,14 +36,16 @@ exports.createPost = async (req, res) => {
   body.body = req.sanitize(body.body);
   const post = new Post(body);
   try {
-    for(let i = 0; i < mediaIds.length; i++) {
-      // find media document related to current post
-      const media = await Media.findById(mongoose.Types.ObjectId(mediaIds[i]));
-      if(media === null) {
-        return res.status(404).json({message: 'media doesn\'t exist'});
-      }      
-      // push found media onto post document
-      post.media.push(media);
+    if(mediaIds.length >= 1) {       
+      for(let i = 0; i < mediaIds.length; i++) {
+        // find media document related to current post
+        const media = await Media.findById(mongoose.Types.ObjectId(mediaIds[i]));
+        if(media === null) {
+          return res.status(404).json({message: 'media doesn\'t exist'});
+        }      
+        // push found media onto post document
+        post.media.push(media);
+      }
     }
 
     // save post to database
