@@ -5,7 +5,7 @@ open source publishing platform tailored for entry level developers
 newbie.dev backend is written in Node.js and uses MongoDB for data persistence
 
 ## Installation
-Clone this repository to your project folder and run `npm run dev-start` in your terminal.
+Clone this repository to your project folder and run `npm run dev` in your terminal.
 
 ```
   $ mkdir <project name>
