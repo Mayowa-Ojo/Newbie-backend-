@@ -12,7 +12,7 @@ Clone this repository to your project folder and run `npm run dev-start` in your
   $ cd <project name>
   $ git clone https://github.com/Mayowa-Ojo/Newbie-backend-.git
   $ npm install
-  $ npm run dev-start
+  $ npm run dev
 ```
 
 ### Prerequisite Tools
