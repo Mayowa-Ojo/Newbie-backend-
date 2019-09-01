@@ -1,3 +1,4 @@
+const cloudinary = require('cloudinary');
 /** Relative imports */
 const Media = require('../models/media');
 
@@ -7,14 +8,18 @@ const Media = require('../models/media');
  *  end-point: "/api/media"
  */
 exports.createMedia = async (req, res) => {
-    const { body } = req;
-    const media = new Media(body);
-    try {
-      const newMedia = await media.save();
-      res.status(201).json(newMedia);
-    } catch(err) {
-      res.status(400).json({message: err.message});
-    }
+  const { url, public_id } = req.file;
+  const { body } = req;
+
+  const media = new Media(body);
+  media.url = url;
+  media.publicId = public_id;
+  try {
+    const newMedia = await media.save();
+    res.status(201).json(newMedia);
+  } catch(err) {
+    res.status(400).json({message: err.message});
+  }
 }
 
 /**
@@ -41,16 +46,22 @@ exports.getMedia = async (req, res) => {
  *  end-point: "/api/media/:id"
  */
 exports.deleteMedia = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params;  
   try {
     const media = await Media.findById(id);
+    const { publicId } = media;
     if(media === null) {
       return res.status(404).json({message: "media doesn't exist"});
     }
+    // Delete media from cloudinary
+    cloudinary.v2.uploader.destroy(publicId, (res) => {
+      return res;
+    })
+    // Delete media from database
     await media.remove();
-    res.json({message: "media deleted successfully"})
+    res.json({ message: "media deleted successfully" })
   } catch(err) {
-    res.status(500).json({message: err.message});
+    res.status(500).json({ message: err.message });
   }
 }
 

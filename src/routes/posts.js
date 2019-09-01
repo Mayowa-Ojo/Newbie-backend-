@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 /* Relative imports */
 const { getSinglePost } = require('../middlewares/posts');
 const { 

@@ -26,16 +26,16 @@ exports.getCommentReply = (req, res) => {
 
 /**
  * Post a reply to a comment
- * expects a post request from the client with payload like so: { text: "< enter comment reply here >"}
+ * expects a post request from the client with payload like so: { content: "< enter comment reply here >"}
  * end-point: "/api/posts/:id/comments/:comment_id/replies"
  */
 exports.postCommentReply = async (req, res) => {
-  const { text } = req.body;
+  const { content } = req.body;
   const { id, comment_id } = req.params;
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { "$push": { "comments.$[element].replies": { text } } },
+      { "$push": { "comments.$[element].replies": { content } } },
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
     );
     // return a json object of the updated post
@@ -48,16 +48,16 @@ exports.postCommentReply = async (req, res) => {
 
 /**
  * Edit a reply to a comment
- * expects a put request from the client with payload like so: { text: "< enter comment reply here >"}
+ * expects a put request from the client with payload like so: { content: "< enter edited comment reply here >"}
  * end-point: "/api/posts/:id/comments/:comment_id/replies/:reply_id"
  */
 exports.editCommentReply = async (req, res) => {
-  const { text } = req.body;
+  const { content } = req.body;
   const { id, reply_id } = req.params;
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { "$set": { "comments.$[].replies.$[element]": { text } } },
+      { "$set": { "comments.$[].replies.$[element]": { content } } },
       // go through all replies for all comments and update where reply_id matches
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: reply_id }}]}
     );

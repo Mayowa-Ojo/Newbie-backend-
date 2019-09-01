@@ -20,17 +20,17 @@ exports.getComment = (req, res) => {
 }
 
 /* Post a comment
-   expects a post request to the endpoint with payload structure like so: { body: "<insert comment string here>" }
+   expects a post request to the endpoint with payload structure like so: { content: "<insert comment here>" }
    end-point: "/api/posts/:id/comments"
 */
 exports.postComment = async (req, res) => {
-  // grab text body and post id from request object
-  const { body: { body }, params: { id }} =  req;
+  // grab content and post id from request object
+  const { body: { content }, params: { id }} =  req;
   try {    
     // update post with new comment using the $push array operator
     const updatedPost = await Post.findByIdAndUpdate(
       id, 
-      { "$push": { comments: { body } } }, 
+      { "$push": { comments: { content } } }, 
       { new: true, useFindAndModify: false }
     );
     // return the post object updated with new comment(s)
@@ -42,18 +42,18 @@ exports.postComment = async (req, res) => {
 }
 
 /* Edit a comment
-   expects a put request from the client with payload structure like so: { comment: "<insert edited text here>" }
+   expects a put request from the client with payload structure like so: { content: "<insert edited comment here>" }
    end-point: "/api/posts/:id/comments/:comment_id"
 */
 exports.editComment = async (req, res) => {
   // grab the post id and comment id from the route parameters
   const { id, comment_id } = req.params;
   // grab comment from request body
-  const { comment } = req.body;
+  const { content } = req.body;
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { "$set": { "comments.$[element].body": comment }},
+      { "$set": { "comments.$[element].body": content }},
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
     );
     // return a json object of the complete post with the comment updated

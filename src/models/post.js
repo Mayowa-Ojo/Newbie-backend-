@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 /* Define database schema for the posts */
 const postSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  body: { type: String, required: true },
+  content: { type: String, required: true },
   author: { type: String, default: 'Anonymous' },
   date: { type: Date, default: Date.now },  
   comments: [
     {
-      body: String,
+      content: String,
       // body: {type: String, minlength: 1, maxlength: 10},
       date: { type: Date, default: Date.now },
       replies: [
         {
-          text: String,
+          content: String,
           date: { type: Date, default: Date.now }
         }
       ],

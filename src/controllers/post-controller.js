@@ -25,15 +25,15 @@ exports.getPost = (req, res) => {
 }
 
 /* Create a post
-   expects a post request from the client with payload structure like so: { title: "<enter post title>", body: "<enter post body>" }
+   expects a post request from the client with payload structure like so: { title: "<insert post title>", content: "<insert post content>" }
    end-point: "/api/posts"
 */
 exports.createPost = async (req, res) => {
-  const { body, body: { meta: { mediaIds } } } = req;
-  // const mediaId = mongoose.Types.ObjectId("5d67bf85c4d56a21acdd689f");
+  const { body, body: { meta: { mediaIds } }} = req;
+  
   // sanitize user input
   body.title = req.sanitize(body.title);
-  body.body = req.sanitize(body.body);
+  body.content = req.sanitize(body.content);
   const post = new Post(body);
   try {
     if(mediaIds.length >= 1) {       
@@ -60,14 +60,14 @@ exports.createPost = async (req, res) => {
 }
 
 /* Edit a post
-   expects a put request from the client with payload structure like so: { title: "<enter updated post title>", body: "<enter updated post body>" }
+   expects a put request from the client with payload structure like so: { title: "<insert updated post title>", content: "<insert updated post content>" }
    end-point: "/api/posts/:id"
 */
 exports.editPost = async (req, res) => {
   const { body, params: { id } } = req;
   // sanitize user input
   // body.title = req.sanitize(body.title);
-  // body.body = req.sanitize(body.body);
+  // body.content = req.sanitize(body.content);
   try {
     // update post in the database
     const updatedPost = await Post.findByIdAndUpdate(id, body, {new: true, useFindAndModify: false});

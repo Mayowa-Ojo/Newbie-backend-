@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
 /** Relative imports */
+const { parser } = require('../config/media-upload');
 const { 
   createMedia, 
   getMedia, 
@@ -9,7 +11,7 @@ const {
 
 router.get('/:id', getMedia);
 
-router.post('/', createMedia);
+router.post('/', parser.single('image'), createMedia);
 
 router.delete('/:id', deleteMedia);
 

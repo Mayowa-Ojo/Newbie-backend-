@@ -37,32 +37,36 @@ You can make requests from a frontend or through an APM or your browser
 
 ### available routes
 
-| Routes | Query | HTTP method | End-point |
-| ------ | ------|        ---: | ---------|
-| Posts  | get all posts | GET | /api/posts |
-|        | get single post | GET | /api/posts/:id |
-|        | create post | POST | /api/posts |
-|        | update a post | PUT | /api/posts/:id |
-|        | delete a post | DELETE | /api/posts/:id |
-|        | update likes | PUT | /api/posts/:id/likes |
-| comments | get all comments | GET | /api/posts/:id/comments |
-|          | get single comment | GET | /api/posts/:id/comments/:comment_id |
-|          | create a comment | POST | /api/posts/:id/comments |
-|          | edit a comment | PUT | /api/posts/:id/comments/:comment_id |
-|          | delete a comment | DELETE | /api/posts/:id/comments/:comment_id |
-|          | update likes | PUT | /api/posts/:id/comments/:comment_id/likes |
-| comment-replies | get all replies | GET | /api/posts/:id/comments/:comment_id/replies |
-|                  | get single reply | GET | /api/posts/:id/comments/:comment_id/replies/:reply_id |
-|                  | create a reply | POST | /api/posts/:id/comments/:comment_id/replies |
-|                  | edit a reply | PUT | /api/posts/:id/comments/:comment_id/replies/:reply_id |
-|                  | delete a reply | DELETE | /api/posts/:id/comments/:comment_id/replies/:reply_id |
-| media | create a media type | POST | /api/media |
-|       | get a media type | GET | /api/media/:id |
-|       | delete a media type | DELETE | /api/media/:id |
+| Routes | Query | HTTP method | End-point | Payload |
+| ------ | ------|        ---: | ---------| -------: |
+| Posts  | get all posts | GET | /api/posts | < nil >
+|        | get single post | GET | /api/posts/:id | < nil >
+|        | create post | POST | /api/posts | { title: "< insert title >", content: "< insert post >" }
+|        | update a post | PUT | /api/posts/:id | { title: "< insert updated title >", content: "< insert updated post >" }
+|        | delete a post | DELETE | /api/posts/:id | < nil >
+|        | update likes | PUT | /api/posts/:id/likes | < nil >
+| comments | get all comments | GET | /api/posts/:id/comments | < nil >
+|          | get single comment | GET | /api/posts/:id/comments/:comment_id | < nil >
+|          | create a comment | POST | /api/posts/:id/comments | { content: "< insert comment here > " }
+|          | edit a comment | PUT | /api/posts/:id/comments/:comment_id | { content: "< insert edited comment here >" }
+|          | delete a comment | DELETE | /api/posts/:id/comments/:comment_id | < nil >
+|          | update likes | PUT | /api/posts/:id/comments/:comment_id/likes | < nil >
+| comment-replies | get all replies | GET | /api/posts/:id/comments/:comment_id/replies | < nil >
+|                  | get single reply | GET | /api/posts/:id/comments/:comment_id/replies/:reply_id | < nil >
+|                  | create a reply | POST | /api/posts/:id/comments/:comment_id/replies | { content: "< enter comment reply here >" }
+|                  | edit a reply | PUT | /api/posts/:id/comments/:comment_id/replies/:reply_id | { content: "< enter edited comment reply here >" }
+|                  | delete a reply | DELETE | /api/posts/:id/comments/:comment_id/replies/:reply_id | < nil >
+| media | create a media type | POST | /api/media | < file or url >
+|       | get a media type | GET | /api/media/:id | < nil >
+|       | delete a media type | DELETE | /api/media/:id | < nil >
 
 ### NOTE :bulb: (on handling media)
-> * Make a post request to the create media route.<br>
+> * Make a post request to the create media route with payload -> `file` and enctype -> `multipart/form-data`.<br>
+> * You a response json with the media id and cloudinary url
 > * Embed the media id(s) in the "**mediaIds**" field in the meta field of the post body.<br>
 > * Make the post request to the create post route.
 > * When making a get single post request, the post will be populated with the media documents. 
+
+## Taks 
+- [x] Scaffold backend application
 
