@@ -53,7 +53,7 @@ exports.editComment = async (req, res) => {
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { "$set": { "comments.$[element].body": content }},
+      { "$set": { "comments.$[element].content": content }},
       { new: true, useFindAndModify: false, arrayFilters: [{ "element._id": { $eq: comment_id }}]}
     );
     // return a json object of the complete post with the comment updated

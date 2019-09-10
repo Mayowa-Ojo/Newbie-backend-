@@ -32,8 +32,8 @@ exports.createPost = async (req, res) => {
   const { body, body: { meta: { mediaIds } }} = req;
   
   // sanitize user input
-  body.title = req.sanitize(body.title);
-  body.content = req.sanitize(body.content);
+  // body.title = req.sanitize(body.title);
+  // body.content = req.sanitize(body.content);
   const post = new Post(body);
   try {
     if(mediaIds.length >= 1) {       

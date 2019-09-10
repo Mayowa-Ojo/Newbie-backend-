@@ -26,7 +26,7 @@ mongoose.connect(DATABASE_URI, { useNewUrlParser: true })
     log(`${chalk.bgMagenta('connected to database')}`)
   })
   .catch((err) => {
-    log(`${chalk.red(err)}`) 
+    log(`${chalk.red(err)}`)
   })
 
 /* setup middlewares */
