@@ -20,7 +20,8 @@ env.config();
 /* global variables */
 const { log } = console;
 const PORT = process.env.PORT;
-const DATABASE_URI = process.env.DATABASE_URI;
+const NODE_ENV = process.env.NODE_ENV;
+const DATABASE_URI = NODE_ENV == 'test' ? process.env.TEST_DATABASE_URI : process.env.DATABASE_URI;
 
 /* connect mongoose */
 mongoose.connect(DATABASE_URI, { useNewUrlParser: true, useCreateIndex: true })
@@ -29,11 +30,11 @@ mongoose.connect(DATABASE_URI, { useNewUrlParser: true, useCreateIndex: true })
   })
   .catch((err) => {
     log(`${chalk.red(err)}`)
-  })
+  });
 
 /* setup middlewares */
+require('./middlewares/auth');
 app.use(passport.initialize()); // initialize passport config
-require('./config/passport-config')(passport);
 
 app.use(cors());
 app.use(express.json());
@@ -52,6 +53,6 @@ app.get('/', (req, res) => {
   res.json({message: 'Welcome to newbie.dev'});
 })
 
-app.listen(PORT, () => {
-  log(`server running on port ${chalk.bgWhite.magenta(PORT)}`);
+module.exports = app.listen(PORT, () => {
+  log(`server running on port ${chalk.bgWhite.magenta(PORT)} in ${NODE_ENV}`);
 })

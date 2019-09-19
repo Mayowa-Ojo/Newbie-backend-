@@ -1,10 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const env = require('dotenv');
-/** Relative imports */
-const User = require('../models/user');
 
 env.config();
 /** Global variables */
@@ -16,36 +12,10 @@ const SECRET = process.env.SECRET;
  *  end-point: "/api/users/register"
  */
 exports.createUser = async (req, res) => {
-  try {
-    const { email, name, username, password, confirmPassword } = req.body;
-    const user = await User.findOne({email})
-    // check if this user already exists, hence return error
-    if(user) {
-      return res.status(400).json({message: "email is taken"});
-    } else {
-      // compare the two passwords
-      if(password != confirmPassword) {
-        return res.status(400).json({message: "passwords do not match"})
-      } else {
-        // generate salt and hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        // create new user
-        const newUser = new User({
-          name,
-          email,
-          username,
-          password: hashedPassword,
-        })
-        // save user to database
-        const createdUser = await newUser.save();
-        // return user to client
-        res.status(201).json(createdUser);
-      }
-    }
-  } catch(err) {
-    res.status(500).json({message: err.message});
-  }
+  res.status(201).json({
+    message: "sign up successful",
+    user: req.user
+  })
 }
 
 /**
@@ -53,38 +23,45 @@ exports.createUser = async (req, res) => {
  *  expects a post request fro the client wiht payload like so: { email/username, password }
  *  end-point: "/api/users/login"
  */
-exports.userSignIn = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    // get user from database
-    const user = await User.findOne({ email });
-    // check if user exists
-    if(!user) {
-      return res.status(400).json({message: "invalid credentials"});
-    }
-    // check if password matches
-    if(await bcrypt.compare(password, user.password)) {
-      const { id, username } = user;
-      const payload = {
-        id,
-        username
+exports.userSignIn = async (req, res, next) => {
+  passport.authenticate('login', async (err, user, info) => {
+    try {
+      // check if user exists
+      if(err || !user) {
+        const error = new Error('An error occured');
+        return next(error)
       }
-      // create a token 
-      jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
-        // check for error
-        if(err) {
-          res.status(500).json({message: err.message});
-        }
-        res.json({
-          success: true,
-          token: `Bearer ${token}`
+      // login user
+      req.login(user, {session: false}, async (err) => {
+        if(err) return next(err);
+        // generate and sign token with email and id
+        const { _id, email } = user;
+        const payload = { _id, email }
+        jwt.sign(payload, SECRET, { expiresIn: 10800 }, (err, token) => {
+          // check for error
+          if(err) {
+            return next(err);
+          }
+          // send token to the client
+          return res.json({
+            success: true,
+            token: `JWT ${token}`
+          });
         });
-      });
-    } else return res.status(400).json({message: "incorrect password"});
-    
-  } catch(err) {
-    res.status(500).json({message: err.message});
-  }
+      });  
+    } catch(err) {
+      return next(err);
+    }
+  })(req, res, next)
 }
 
+/**
+ *  get user profile
+ *  expects a get request from the client with the signed token in authorization header
+ *  end-point: "/api/users/profile"
+ */
+exports.getUserProfile = async (req, res) => {
+  res.status(201).json(req.user);
+}
+ 
 module.exports = exports;
