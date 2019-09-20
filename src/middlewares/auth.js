@@ -1,5 +1,4 @@
 const passport = require('passport');
-const bcrypt = require('bcryptjs');
 const { ExtractJwt, Strategy: JWTstrategy } = require('passport-jwt');
 const localStrategy = require('passport-local').Strategy;
 const env = require('dotenv');
@@ -24,15 +23,12 @@ passport.use('register', new localStrategy({
     if(user) {
       return done(null, false, {message: "email is taken"});
     } else {
-      // generate salt and hash password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
       // create new user
       const newUser = new User({
         name,
         username,
         email,
-        password: hashedPassword,
+        password
       });
       // save user to database
       const createdUser = await newUser.save();
@@ -56,7 +52,7 @@ passport.use('login', new localStrategy({
       return done(null, false, {message: "invalid credentials"});
     } else {
       // check if password matches
-      if(await bcrypt.compare(password, user.password)) {
+      if(user.validatePassword(password)) {
         // pass user information to the next  middleware
         return done(null, user, {message: "user login successful"})
       } else return done(null, false, {message: "incorrect password"})

@@ -44,7 +44,7 @@ exports.userSignIn = async (req, res, next) => {
           }
           // send token to the client
           return res.json({
-            success: true,
+            message: 'user login successful',
             token: `JWT ${token}`
           });
         });
