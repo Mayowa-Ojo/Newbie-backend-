@@ -7,7 +7,10 @@ const mediaSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
   },
-  created: { type: Date, default: Date.now }
+  timestamps: {
+    createdAt: 'dateCreated',
+    updatedAt: 'dateUpdated'
+  }
 });
 
 module.exports = mongoose.model('Media', mediaSchema);

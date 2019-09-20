@@ -5,16 +5,25 @@ const postSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   author: { type: String, default: 'Anonymous' },
-  date: { type: Date, default: Date.now },  
+  timestamps: {
+    createdAt: 'dateCreated',
+    updatedAt: 'dateUpdated'
+  }, 
   comments: [
     {
       content: String,
       // body: {type: String, minlength: 1, maxlength: 10},
-      date: { type: Date, default: Date.now },
+      timestamps: {
+        createdAt: 'dateCreated',
+        updatedAt: 'dateUpdated'
+      },
       replies: [
         {
           content: String,
-          date: { type: Date, default: Date.now }
+          timestamps: {
+            createdAt: 'dateCreated',
+            updatedAt: 'dateUpdated'
+          }
         }
       ],
       likes: { type: Number, default: 0 }
