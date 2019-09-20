@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     type: String
   }
-});
+}, { timestamps: true });
 
 // create middleware for encrypting the password
 userSchema.pre('save', async function (next) {

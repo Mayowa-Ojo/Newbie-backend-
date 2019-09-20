@@ -6,11 +6,7 @@ const mediaSchema = new mongoose.Schema({
   slug: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
-  },
-  timestamps: {
-    createdAt: 'dateCreated',
-    updatedAt: 'dateUpdated'
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Media', mediaSchema);

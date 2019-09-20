@@ -5,25 +5,14 @@ const postSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   author: { type: String, default: 'Anonymous' },
-  timestamps: {
-    createdAt: 'dateCreated',
-    updatedAt: 'dateUpdated'
-  }, 
   comments: [
     {
       content: String,
-      // body: {type: String, minlength: 1, maxlength: 10},
-      timestamps: {
-        createdAt: 'dateCreated',
-        updatedAt: 'dateUpdated'
-      },
+      date: { type: Date, default: Date.now },
       replies: [
         {
           content: String,
-          timestamps: {
-            createdAt: 'dateCreated',
-            updatedAt: 'dateUpdated'
-          }
+          date: { type: Date, default: Date.now }
         }
       ],
       likes: { type: Number, default: 0 }
@@ -40,6 +29,6 @@ const postSchema = new mongoose.Schema({
     tags: { type: Array },
     mediaIds: { type: Array }
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Post', postSchema);
