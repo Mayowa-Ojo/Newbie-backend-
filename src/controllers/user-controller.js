@@ -35,7 +35,7 @@ exports.userSignIn = async (req, res, next) => {
       req.login(user, {session: false}, async (err) => {
         if(err) return next(err);
         // generate and sign token with email and id
-        const { _id, email } = user;
+        const { _id, email, name, username } = user;
         const payload = { _id, email }
         jwt.sign(payload, SECRET, { expiresIn: 10800 }, (err, token) => {
           // check for error
@@ -45,7 +45,8 @@ exports.userSignIn = async (req, res, next) => {
           // send token to the client
           return res.json({
             message: 'user login successful',
-            token: `JWT ${token}`
+            token: `JWT ${token}`,
+            user: {id: _id, name, username, email}
           });
         });
       });  
