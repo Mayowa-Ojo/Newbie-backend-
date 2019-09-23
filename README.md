@@ -41,9 +41,9 @@ You can make requests from a frontend or through an APM or your browser
 | ------ | ------|        ---: | ---------| -------: |
 | Posts  | get all posts | GET | /api/posts | < nil >
 |        | get single post | GET | /api/posts/:id | < nil >
-|        | create post | POST | /api/posts | { title: "< insert title >", content: "< insert post >" }
-|        | update a post | PUT | /api/posts/:id | { title: "< insert updated title >", content: "< insert updated post >" }
-|        | delete a post | DELETE | /api/posts/:id | < nil >
+|        | create post | POST* | /api/posts | { title: "< insert title >", content: "< insert post >" }
+|        | update a post | PUT* | /api/posts/:id | { title: "< insert updated title >", content: "< insert updated post >" }
+|        | delete a post* | DELETE | /api/posts/:id | < nil >
 |        | update likes | PUT | /api/posts/:id/likes | < nil >
 | comments | get all comments | GET | /api/posts/:id/comments | < nil >
 |          | get single comment | GET | /api/posts/:id/comments/:comment_id | < nil >
@@ -60,7 +60,7 @@ You can make requests from a frontend or through an APM or your browser
 |       | get a media type | GET | /api/media/:id | < nil >
 |       | delete a media type | DELETE | /api/media/:id | < nil >
 | users | create user | POST | /api/users/register | { name, username, email, password }
-|       | get user profile | GET | /api/users/profile | { headers: { Authentication: < insert token > }}
+|       | get user profile* | GET | /api/users/profile | { headers: { Authentication: < insert token > }}
 |       | login user | POST | /api/users/login | { email, password }
 
 ### NOTE :bulb: (on handling media)
