@@ -41,8 +41,8 @@ You can make requests from a frontend or through an APM or your browser
 | ------ | ------|        ---: | ---------| -------: |
 | Posts  | get all posts | GET | /api/posts | < nil >
 |        | get single post | GET | /api/posts/:id | < nil >
-|        | create post | POST* | /api/posts | { title: "< insert title >", content: "< insert post >" }
-|        | update a post | PUT* | /api/posts/:id | { title: "< insert updated title >", content: "< insert updated post >" }
+|        | create post* | POST | /api/posts | { title: "< insert title >", content: "< insert post >" }
+|        | update a post* | PUT | /api/posts/:id | { title: "< insert updated title >", content: "< insert updated post >" }
 |        | delete a post* | DELETE | /api/posts/:id | < nil >
 |        | update likes | PUT | /api/posts/:id/likes | < nil >
 | comments | get all comments | GET | /api/posts/:id/comments | < nil >
