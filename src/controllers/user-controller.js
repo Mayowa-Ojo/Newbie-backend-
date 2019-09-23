@@ -8,7 +8,7 @@ const SECRET = process.env.SECRET;
 
 /**
  *  create user
- *  expects a post request from the client with payload like so: { name, email, username, password, confirmPassword }
+ *  expects a post request from the client with payload like so: { name, email, username, password }
  *  end-point: "/api/users/register"
  */
 exports.createUser = async (req, res) => {
@@ -58,6 +58,7 @@ exports.userSignIn = async (req, res, next) => {
 /**
  *  get user profile
  *  expects a get request from the client with the signed token in authorization header
+ *    i.e: { headers: { Authorization: <insert token here> }}
  *  end-point: "/api/users/profile"
  */
 exports.getUserProfile = async (req, res) => {

@@ -59,6 +59,9 @@ You can make requests from a frontend or through an APM or your browser
 | media | create a media type | POST | /api/media | < file or url >
 |       | get a media type | GET | /api/media/:id | < nil >
 |       | delete a media type | DELETE | /api/media/:id | < nil >
+| users | create user | POST | /api/users/register | { name, username, email, password }
+|       | get user profile | GET | /api/users/profile | { headers: { Authentication: < insert token > }}
+|       | login user | POST | /api/users/login | { email, password }
 
 ### NOTE :bulb: (on handling media)
 > * Make a post request to the create media route with payload -> `file` and enctype -> `multipart/form-data`.<br>
@@ -67,6 +70,11 @@ You can make requests from a frontend or through an APM or your browser
 > * Make the post request to the create post route.
 > * When making a get single post request, the post will be populated with the media documents. 
 
+### NOTE :bulb: (on handling authorized routes)
+> * Certain routes are authorized and would require a bearer token to be accessed
+> * Authorized routes are indicated by the "*" sign next to the query column in the table above
+> * To access authorized routes, simply include an auth header like so -> `{ headers: { Authorization: < insert token here > }}`
+> * The bearer token is a string that begins with **"JWT"**
 ## Taks 
 - [x] Scaffold backend application
 
