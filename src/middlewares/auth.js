@@ -52,7 +52,8 @@ passport.use('login', new localStrategy({
       return done(null, false, {message: "invalid credentials"});
     } else {
       // check if password matches
-      if(user.validatePassword(password)) {
+      const isvalid = await user.validatePassword(password);
+      if(isvalid) {
         // pass user information to the next  middleware
         return done(null, user, {message: "user login successful"})
       } else return done(null, false, {message: "incorrect password"})

@@ -28,8 +28,8 @@ exports.userSignIn = async (req, res, next) => {
     try {
       // check if user exists
       if(err || !user) {
-        const error = new Error('An error occured');
-        return next(error)
+        const error = new Error('invalid credentials');
+        return next(error.message)
       }
       // login user
       req.login(user, {session: false}, async (err) => {
