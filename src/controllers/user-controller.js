@@ -11,11 +11,38 @@ const SECRET = process.env.SECRET;
  *  expects a post request from the client with payload like so: { name, email, username, password }
  *  end-point: "/api/users/register"
  */
-exports.createUser = async (req, res) => {
-  res.status(201).json({
-    message: "sign up successful",
-    user: req.user
-  })
+exports.createUser = async (req, res, next) => {
+  passport.authenticate('register', (err, user, info) => {
+    try {
+      if(err || !user) {
+        const error = new Error('user already exists');
+        return res.status(400).json({message: error.message})
+      }
+      // login user and create signed token
+      req.login(user, {session: false}, (err) => {
+        if(err) return next(err);
+        // generate and sign token with email and id
+        // const user = req.user;
+        user.password = null;
+        const { _id, email } = user;
+        const payload = { _id, email }
+        jwt.sign(payload, SECRET, { expiresIn: 10800 }, (err, token) => {
+          // check for error
+          if(err) {
+            return next(err);
+          }
+          // send token to the client
+          return res.status(201).json({
+            message: 'sign up successful, you are now logged in',
+            token: `JWT ${token}`,
+            user
+          });
+        });
+      });
+    } catch(err) {
+      return next(err)
+    }
+  })(req, res, next)  
 }
 
 /**

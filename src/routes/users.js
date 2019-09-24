@@ -10,7 +10,7 @@ const authorizeRoute = passport.authenticate('jwt', {session: false});
 /** setup user routes */
 
 /** create user route */
-router.post('/register', passport.authenticate('register', {session: false}), createUser);
+router.post('/register', createUser);
 
 /** user login route */
 router.post('/login', userSignIn);

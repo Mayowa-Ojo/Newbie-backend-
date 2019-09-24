@@ -36,7 +36,7 @@ passport.use('register', new localStrategy({
       return done(null, createdUser);
     }
   } catch(err) {
-    done(err);
+    done({message: err.message});
   }
 }));
 
