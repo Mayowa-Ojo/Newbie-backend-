@@ -4,7 +4,13 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
-  author: { type: String, default: 'Anonymous' },
+  author: {
+    id: { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    username: String
+  },
   comments: [
     {
       content: String,

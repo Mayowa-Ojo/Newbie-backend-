@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 /* Relative imports */
 const Post = require('../models/post');
 const Media = require('../models/media');
+const User = require('../models/user');
 
 /* get all posts
    expects a get request from the client with no payload
@@ -29,7 +30,7 @@ exports.getPost = (req, res) => {
    end-point: "/api/posts"
 */
 exports.createPost = async (req, res) => {
-  const { body, body: { meta: { mediaIds } }} = req;
+  const { body, body: { meta: { mediaIds, authorId } }} = req;
   
   // sanitize user input
   // body.title = req.sanitize(body.title);
@@ -47,6 +48,10 @@ exports.createPost = async (req, res) => {
         post.media.push(media);
       }
     }
+    // find author of current post
+    const user = await User.findById(mongoose.Types.ObjectId(authorId));
+    if(user === null) return res.status(404).json({message: 'user not found'});
+    post.author = { id: user._id, username: user.username };
 
     // save post to database
     const newPost = await post.save();
